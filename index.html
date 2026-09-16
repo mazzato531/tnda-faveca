@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAVECA — Tienda en línea</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:#1A1F2E;background:#fff;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,12,18,.97);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav-bar{max-width:1160px;margin:0 auto;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-logo{height:34px;filter:invert(1) brightness(2)}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-size:11px;color:#9299A8;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cart-btn{background:#8B7355;color:#fff;border:none;padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.cart-count{background:rgba(255,255,255,.25);border-radius:10px;padding:1px 6px;font-size:10px;font-weight:700}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:1px}
+.nav-mobile{display:none;flex-direction:column;background:#0F1117;border-top:1px solid rgba(255,255,255,.07)}
+.nav-mobile.open{display:flex}
+.nav-mobile a{color:#E8E4DC;font-size:15px;font-weight:500;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.05)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:#0F1117;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.32}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(110deg,rgba(8,10,16,.95) 0%,rgba(8,10,16,.7) 55%,rgba(8,10,16,.3) 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(139,115,85,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(139,115,85,.07) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:120px 20px 80px;width:100%}
+.hero-eye{font-size:10px;font-weight:600;letter-spacing:.2em;color:#8B7355;text-transform:uppercase;margin-bottom:16px}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,12vw,6.5rem);font-weight:800;line-height:.88;color:#fff;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:20px}
+.hero-title span{color:#8B7355}
+.hero-desc{font-size:clamp(13px,3.5vw,15px);color:#9299A8;line-height:1.75;max-width:460px;margin-bottom:30px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-gold{background:#8B7355;color:#fff;border:none;padding:13px 28px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-block}
+.btn-ghost{background:transparent;color:#E8E4DC;border:1.5px solid rgba(255,255,255,.3);padding:13px 28px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-block}
+.hero-stats{display:flex;align-items:center;margin-top:44px;padding-top:26px;border-top:1px solid rgba(255,255,255,.09)}
+.stat{flex:1}
+.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:700;color:#fff;line-height:1;display:block}
+.stat-l{font-size:10px;color:#9299A8;text-transform:uppercase;letter-spacing:.1em;display:block;margin-top:4px}
+.stat-div{width:1px;height:36px;background:rgba(255,255,255,.1);margin:0 clamp(10px,3vw,24px)}
+
+/* SECTIONS */
+.sec{padding:64px 20px;background:#fff}
+.sec-dark{padding:64px 20px;background:#1A1F2E;color:#E8E4DC}
+.sec-inner{max-width:1160px;margin:0 auto}
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;gap:16px;flex-wrap:wrap}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,6vw,2.8rem);font-weight:800;text-transform:uppercase;line-height:1}
+
+/* FILTERS */
+.filters{display:flex;gap:3px;background:#F0EDE8;padding:3px;flex-wrap:wrap}
+.fil{padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:transparent;border:none;color:#9299A8;cursor:pointer;white-space:nowrap}
+.fil.active{background:#1A1F2E;color:#fff}
+
+/* PRODUCT GRID */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px}
+.pcard{background:#fff;border:1px solid #ECEAE5;overflow:hidden}
+.pcard-img{aspect-ratio:4/3;background:#F8F6F1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid #F0EDE8;cursor:pointer}
+.pcard-img img{width:88%;height:88%;object-fit:contain}
+.pcat-badge{position:absolute;top:10px;left:10px;background:#1A1F2E;color:#fff;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px}
+.pcard-body{padding:14px 16px;cursor:pointer}
+.pcard-name{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:700;text-transform:uppercase;line-height:1.1;margin-bottom:4px;color:#1A1F2E}
+.pcard-note{font-size:10px;color:#9299A8;margin-bottom:10px;line-height:1.4}
+.pcard-price-row{display:flex;align-items:center;justify-content:space-between}
+.pcard-price{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;color:#8B7355;line-height:1}
+.pcard-price-sub{font-size:10px;color:#9299A8;text-align:right;line-height:1.4}
+.pcard-actions{display:flex;gap:6px;padding:0 16px 14px}
+.btn-ol{flex:1;padding:9px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:transparent;color:#8B7355;border:1.5px solid #8B7355;cursor:pointer}
+.btn-dk{flex:1;padding:9px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:#1A1F2E;color:#fff;border:none;cursor:pointer}
+
+/* STEPS */
+.steps{display:flex;align-items:flex-start;flex-wrap:wrap;gap:0}
+.step{flex:1;min-width:140px;padding:0 14px}
+.step:first-child{padding-left:0}
+.step:last-child{padding-right:0}
+.step-num{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:800;color:#8B7355;opacity:.5;margin-bottom:10px;line-height:1}
+.step h4{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;text-transform:uppercase;margin-bottom:7px;color:#E8E4DC;letter-spacing:.03em}
+.step p{font-size:12px;color:#9299A8;line-height:1.7}
+.step-arr{font-size:1.2rem;color:#8B7355;opacity:.3;padding-top:42px;flex-shrink:0}
+
+/* BANK BOX */
+.bank-box{background:#0F1117;border:1px solid rgba(139,115,85,.3);padding:28px;margin-top:40px}
+.bank-box h3{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px;color:#A8906E}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);flex-wrap:wrap;gap:4px}
+.bank-row:last-child{border:none}
+.bank-lbl{font-size:10px;color:#9299A8;text-transform:uppercase;letter-spacing:.06em}
+.bank-val{font-weight:600;color:#E8E4DC;font-size:13px}
+.bank-val.hi{color:#A8906E;font-size:1.1rem;font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.bank-note{font-size:12px;color:#9299A8;line-height:1.75;margin-top:16px;padding:14px;background:rgba(139,115,85,.07);border-left:3px solid #8B7355}
+.bank-note strong{color:#E8E4DC}
+.bank-note a{color:#8B7355}
+
+/* STORES */
+.stores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.store-card{border:1px solid #ECEAE5;padding:24px;background:#fff}
+.store-card.main{border-color:#8B7355;background:#FDFBF8}
+.store-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;background:#F0EDE8;color:#9299A8;margin-bottom:12px}
+.store-badge.gold{background:#8B7355;color:#fff}
+.store-card h4{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;text-transform:uppercase;margin-bottom:14px;line-height:1.1;color:#1A1F2E}
+.store-row{display:flex;gap:9px;margin-bottom:9px;font-size:12px;color:#555;align-items:flex-start;line-height:1.55}
+.store-row a{color:#8B7355}
+.sico{flex-shrink:0;margin-top:1px}
+.pickup-note{background:#F8F6F1;border:1px solid #8B7355;padding:20px;margin-top:28px;border-radius:2px}
+.pickup-note h4{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;text-transform:uppercase;color:#8B7355;margin-bottom:8px}
+.pickup-note p{font-size:12px;color:#555;line-height:1.7}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.rif-box{border:1px solid rgba(255,255,255,.1);padding:28px;background:rgba(255,255,255,.03)}
+
+/* CART SIDEBAR */
+.cart-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;display:none}
+.cart-ov.open{display:block}
+.cart-panel{position:fixed;top:0;right:0;bottom:0;width:min(360px,100vw);background:#fff;z-index:9999;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.cart-panel.open{transform:translateX(0)}
+.cart-hdr{background:#1A1F2E;color:#fff;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cart-hdr h3{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.xbtn{background:none;border:none;color:#fff;font-size:22px;line-height:1;padding:0 4px;cursor:pointer;opacity:.7}
+.xbtn:hover{opacity:1}
+.cart-items{flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch}
+.cart-empty{text-align:center;padding:50px 0;color:#9299A8;font-size:13px}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #F0EDE8}
+.cimg{width:56px;height:56px;background:#F8F6F1;border:1px solid #F0EDE8;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cimg img{width:100%;height:100%;object-fit:contain}
+.cname{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;text-transform:uppercase;margin-bottom:2px;color:#1A1F2E}
+.cvlbl{font-size:10px;color:#9299A8;margin-bottom:3px}
+.cprice{font-size:12px;color:#8B7355;font-weight:700}
+.cqty{display:flex;align-items:center;gap:7px;margin-top:8px}
+.qbtn{width:26px;height:26px;border:1px solid #DDD;background:none;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#1A1F2E;cursor:pointer}
+.qbtn:hover{background:#1A1F2E;color:#fff;border-color:#1A1F2E}
+.cart-footer-wrap{padding:18px;background:#F8F6F1;border-top:1px solid #ECEAE5;flex-shrink:0}
+.total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.total-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#9299A8}
+.total-amt{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:700;color:#8B7355}
+.total-note{font-size:10px;color:#9299A8;margin-bottom:14px;line-height:1.6}
+.checkout-btn{width:100%;padding:14px;background:#8B7355;color:#fff;border:none;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:10000;display:none;padding:16px;overflow-y:auto}
+.modal-ov.open{display:block}
+.modal{background:#fff;max-width:640px;width:100%;margin:40px auto;position:relative}
+.modal-close-btn{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.1);border:none;width:32px;height:32px;font-size:16px;color:#1A1F2E;z-index:5;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-img{width:100%;aspect-ratio:4/3;background:#F8F6F1;border-bottom:1px solid #F0EDE8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.modal-img img{width:86%;height:86%;object-fit:contain}
+.modal-body{padding:22px 26px}
+.modal-cat{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8B7355;margin-bottom:8px}
+.modal-name{font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;font-weight:800;text-transform:uppercase;line-height:1;margin-bottom:6px;color:#1A1F2E}
+.modal-note{font-size:11px;color:#9299A8;margin-bottom:12px}
+.modal-desc{font-size:13px;color:#444;line-height:1.75;margin-bottom:16px}
+.modal-specs{list-style:none;margin-bottom:18px;border:1px solid #F0EDE8}
+.modal-specs li{display:flex;gap:10px;padding:8px 12px;border-bottom:1px solid #F0EDE8;font-size:12px;color:#444}
+.modal-specs li:last-child{border:none}
+.modal-specs li b{color:#8B7355;flex-shrink:0}
+.var-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9299A8;margin-bottom:10px;display:block}
+.var-options{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.var-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border:1.5px solid #ECEAE5;cursor:pointer}
+.var-row.sel{border-color:#8B7355;background:rgba(139,115,85,.04)}
+.var-row-left{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:#1A1F2E}
+.var-row-price{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:#8B7355;white-space:nowrap}
+.single-price{display:flex;align-items:flex-end;gap:18px;margin-bottom:18px;padding:14px 0;border-top:1px solid #F0EDE8;border-bottom:1px solid #F0EDE8}
+.single-price-amt{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:700;color:#8B7355;line-height:1}
+.single-price-det{font-size:11px;color:#9299A8;line-height:1.7}
+.add-btn{width:100%;padding:14px;background:#8B7355;color:#fff;border:none;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:4px}
+
+/* ORDER */
+.order-ov{position:fixed;inset:0;background:#fff;z-index:10100;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch}
+.order-ov.open{display:block}
+.order-hdr{background:#1A1F2E;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:2}
+.order-hdr-left{display:flex;align-items:center;gap:12px}
+.order-hdr h2{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;text-transform:uppercase}
+.order-cols{display:grid;grid-template-columns:1fr 1fr;max-width:1160px;margin:0 auto}
+.order-col{padding:24px 26px}
+.order-col.right{background:#F8F6F1;border-left:1px solid #ECEAE5}
+.order-sec-title{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:#1A1F2E;border-bottom:2px solid #8B7355;display:inline-block;padding-bottom:5px}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9299A8;margin-bottom:6px}
+.fi,.fta{width:100%;padding:10px 12px;border:1.5px solid #DDD;background:#fff;font-size:14px;color:#1A1F2E;outline:none;font-family:'Inter',sans-serif;-webkit-appearance:none}
+.fi:focus,.fta:focus{border-color:#8B7355}
+.fta{min-height:70px;resize:vertical}
+.store-opts{display:flex;flex-direction:column;gap:8px}
+.store-opt{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1.5px solid #ECEAE5;cursor:pointer}
+.store-opt.sel{border-color:#8B7355;background:rgba(139,115,85,.04)}
+.store-opt input{margin-top:2px;accent-color:#8B7355;flex-shrink:0;width:16px;height:16px}
+.sopt-name{font-size:12px;font-weight:700;margin-bottom:2px;color:#1A1F2E}
+.sopt-addr{font-size:10px;color:#9299A8;line-height:1.4}
+.sopt-hrs{font-size:10px;color:#8B7355;margin-top:2px}
+.osum-item{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F0EDE8;font-size:12px;gap:8px}
+.osum-name{color:#1A1F2E;font-weight:500}
+.osum-qty{color:#9299A8;font-size:10px}
+.osum-price{color:#8B7355;font-weight:700;white-space:nowrap}
+.ototal-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:2px solid #8B7355}
+.ototal-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;text-transform:uppercase;color:#1A1F2E}
+.ototal-amt{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:700;color:#8B7355}
+.order-bank{background:#1A1F2E;color:#E8E4DC;padding:18px;margin-bottom:14px}
+.order-bank h5{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;color:#A8906E}
+.order-instr{font-size:11.5px;color:#9299A8;line-height:1.75;padding:12px 14px;background:rgba(139,115,85,.07);border-left:3px solid #8B7355;margin-bottom:16px}
+.order-instr strong{color:#1A1F2E}
+.order-instr a{color:#8B7355}
+.submit-btn{width:100%;padding:14px;background:#8B7355;color:#fff;border:none;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+
+/* CONFIRM */
+.conf-wrap{padding:40px 20px;text-align:center;max-width:520px;margin:0 auto}
+.conf-ico{width:60px;height:60px;border-radius:50%;border:2px solid #8B7355;background:rgba(139,115,85,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.conf-wrap h2{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;text-transform:uppercase;margin-bottom:12px;color:#1A1F2E}
+.conf-wrap p{font-size:13px;color:#9299A8;margin-bottom:8px;line-height:1.7}
+.order-id{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:#8B7355;background:rgba(139,115,85,.08);padding:8px 20px;display:inline-block;letter-spacing:.08em;margin:12px 0}
+.conf-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;text-align:left;margin-top:16px}
+.conf-step-n{min-width:24px;height:24px;background:#8B7355;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.conf-step-t{font-size:12px;color:#555;line-height:1.65;padding-top:3px}
+.wa-btn{display:block;width:100%;padding:14px;background:#25D366;color:#fff;border:none;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:16px;text-align:center}
+.back-btn{display:block;width:100%;padding:14px;background:transparent;color:#9299A8;border:1px solid #DDD;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:8px;text-align:center}
+
+/* FOOTER */
+.footer{background:#0F1117;padding:22px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid rgba(255,255,255,.06)}
+.footer img{height:26px;filter:invert(1) brightness(2)}
+.footer-copy{font-size:10px;color:#9299A8}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .steps{flex-direction:column}
+  .step{min-width:auto;padding:0 0 24px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:8px}
+  .step:last-child{border:none;padding-bottom:0;margin-bottom:0}
+  .step-arr{display:none}
+  .contact-grid{grid-template-columns:1fr;gap:28px}
+  .order-cols{grid-template-columns:1fr}
+  .order-col.right{border-left:none;border-top:1px solid #ECEAE5}
+  .order-col{padding:20px}
+  .sec-hdr{flex-direction:column;align-items:flex-start;gap:12px}
+}
+@media(max-width:600px){
+  .sec,.sec-dark{padding:48px 16px}
+  .hero-content{padding:96px 16px 64px}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn-gold,.hero-btns .btn-ghost{width:100%;text-align:center;display:block}
+  .pgrid{grid-template-columns:1fr 1fr}
+  .stores-grid{grid-template-columns:1fr}
+  .footer{flex-direction:column;align-items:flex-start}
+  .modal{margin:20px auto}
+  .modal-body{padding:18px 18px}
+  .stat-div{margin:0 10px;height:28px}
+}
+@media(max-width:380px){
+  .pgrid{grid-template-columns:1fr}
+}
+
+/* HERO BLANCO */
+.hero-white{background:#fff;padding:80px 20px 60px;border-bottom:1px solid #ECEAE5}
+.hero-white-content{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero-eye-dark{font-size:10px;font-weight:600;letter-spacing:.2em;color:#8B7355;text-transform:uppercase;margin-bottom:16px}
+.hero-title-dark{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,10vw,6rem);font-weight:800;line-height:.88;color:#1A1F2E;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:20px}
+.hero-title-dark span{color:#8B7355}
+.hero-desc-dark{font-size:clamp(13px,3.5vw,15px);color:#555;line-height:1.75;max-width:440px;margin-bottom:28px}
+.btn-ghost-dark{background:transparent;color:#1A1F2E;border:1.5px solid #1A1F2E;padding:13px 28px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-block}
+.hero-stats-dark{display:flex;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid #ECEAE5}
+.stat-dark{flex:1}
+.stat-n-dark{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:700;color:#1A1F2E;line-height:1;display:block}
+.stat-l-dark{font-size:10px;color:#9299A8;text-transform:uppercase;letter-spacing:.1em;display:block;margin-top:4px}
+.stat-div-dark{width:1px;height:36px;background:#ECEAE5;margin:0 clamp(10px,3vw,24px)}
+.hero-white-img{border-radius:2px;overflow:hidden}
+.hero-white-img img{width:100%;height:auto;object-fit:cover;display:block}
+@media(max-width:768px){
+  .hero-white{padding:70px 16px 48px}
+  .hero-white-content{grid-template-columns:1fr;gap:32px}
+  .hero-white-img{order:-1;max-height:260px;overflow:hidden}
+  .hero-white-img img{width:100%;height:260px;object-fit:cover}
+  .stat-div-dark{margin:0 10px;height:28px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-bar">
+    <a href="#inicio"><img class="nav-logo" src="assets/img/logo.jpg" alt="FAVECA"></a>
+    <div class="nav-links">
+      <a href="#productos">Productos</a>
+      <a href="#como-comprar">Cómo comprar</a>
+      <a href="#tiendas">Tiendas</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartBtn">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#productos">Productos</a>
+    <a href="#como-comprar">Cómo comprar</a>
+    <a href="#tiendas">Tiendas</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-white" id="inicio">
+  <div class="hero-white-content">
+    <div class="hero-white-text">
+      <p class="hero-eye-dark">Fabricación venezolana · J-000135614</p>
+      <h1 class="hero-title-dark">ROBUSTEZ<br><span>Y PUREZA</span><br>EN EL DISEÑO</h1>
+      <p class="hero-desc-dark">¡FAVECA tiene su tienda en línea! Compra desde casa, paga por transferencia Banesco y retira en el punto más cercano a ti.</p>
+      <div class="hero-btns">
+        <a href="#productos"><button class="btn-gold">Ver productos</button></a>
+        <a href="#como-comprar"><button class="btn-ghost-dark">Cómo comprar</button></a>
+      </div>
+      <div class="hero-stats-dark">
+        <div class="stat-dark"><span class="stat-n-dark">10</span><span class="stat-l-dark">Modelos</span></div>
+        <div class="stat-div-dark"></div>
+        <div class="stat-dark"><span class="stat-n-dark">3</span><span class="stat-l-dark">Puntos retiro</span></div>
+        <div class="stat-div-dark"></div>
+        <div class="stat-dark"><span class="stat-n-dark">100%</span><span class="stat-l-dark">Acero</span></div>
+      </div>
+    </div>
+    <div class="hero-white-img">
+      <img src="assets/img/hero.jpg" alt="FAVECA - Literas y camas de acero">
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="sec" id="productos">
+  <div class="sec-inner">
+    <div class="sec-hdr">
+      <h2 class="sec-title">Catálogo</h2>
+      <div class="filters">
+        <button class="fil active" data-filter="all">Todos</button>
+        <button class="fil" data-filter="litera">Literas</button>
+        <button class="fil" data-filter="cama">Camas</button>
+        <button class="fil" data-filter="bedbox">BedBox</button>
+      </div>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</section>
+
+<!-- CÓMO COMPRAR -->
+<section class="sec-dark" id="como-comprar">
+  <div class="sec-inner">
+    <h2 class="sec-title" style="margin-bottom:36px">Cómo comprar</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h4>Elige tu producto</h4><p>Navega el catálogo, selecciona la medida y agrégalo al carrito.</p></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-num">02</div><h4>Revisa tu orden</h4><p>Verifica productos, precios y elige la tienda donde recogerás.</p></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-num">03</div><h4>Transfiere a Banesco</h4><p>Envía el monto en Bs. según la tasa BCV del día a la cuenta de FAVECA CA.</p></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-num">04</div><h4>Envía el comprobante</h4><p>Envía el comprobante a faveca.gestion@gmail.com indicando la tienda elegida.</p></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-num">05</div><h4>Retira (Pick Up)</h4><p>FAVECA confirma y te envía la factura. Acude a la tienda con tu confirmación y retira tu producto.</p></div>
+    </div>
+
+    <!-- DATOS BANCARIOS -->
+    <div class="bank-box">
+      <h3>Datos para la transferencia</h3>
+      <div class="bank-row"><span class="bank-lbl">Banco</span><span class="bank-val">Banesco</span></div>
+      <div class="bank-row"><span class="bank-lbl">Beneficiario</span><span class="bank-val">FAVECA CA</span></div>
+      <div class="bank-row"><span class="bank-lbl">Cuenta corriente</span><span class="bank-val">0134 0215 9321 5101 4898</span></div>
+      <div class="bank-row"><span class="bank-lbl">RIF</span><span class="bank-val">J-000135614</span></div>
+      <div class="bank-row"><span class="bank-lbl">Concepto</span><span class="bank-val">Nombre del producto</span></div>
+      <p class="bank-note">
+        El monto a pagar es el precio indicado en USD convertido a bolívares según la <strong>tasa BCV del día del pago</strong> (consulta en <a href="https://bcv.org.ve" target="_blank">bcv.org.ve</a>).<br><br>
+        Una vez realizada la transferencia, envía el comprobante al correo <strong>faveca.gestion@gmail.com</strong> o por WhatsApp al <strong>0412 290 0353</strong>, indicando la tienda donde deseas recoger tu producto. FAVECA te enviará la factura y confirmará el retiro.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TIENDAS -->
+<section class="sec" id="tiendas">
+  <div class="sec-inner">
+    <h2 class="sec-title" style="margin-bottom:28px">Puntos de recogida — Pick Up</h2>
+    <div class="stores-grid">
+      <div class="store-card">
+        <div class="store-badge">Tienda aliada</div>
+        <h4>Quality for Living</h4>
+        <div class="store-row"><span class="sico">📍</span><span>Av. Beethoven, Edif. Benedetti PB Local 4, Urb. Colinas de Bello Monte, Caracas</span></div>
+        <div class="store-row"><span class="sico">🕐</span><span>Lun–Vie 8:30am–4:00pm · Sáb 9:00am–2:00pm</span></div>
+        <div class="store-row"><span class="sico">📞</span><a href="tel:+584128002929">+58 412 800 2929</a></div>
+        <div class="store-row"><span class="sico">✉️</span><a href="mailto:favelaminaventas@gmail.com">favelaminaventas@gmail.com</a></div>
+      </div>
+      <div class="store-card">
+        <div class="store-badge">Tienda aliada</div>
+        <h4>K+ Soluciones Decorativas</h4>
+        <div class="store-row"><span class="sico">📍</span><span>Av. Las Fuentes, El Paraíso, Caracas</span></div>
+        <div class="store-row"><span class="sico">🕐</span><span>Lun–Sáb 8:30am–5:00pm</span></div>
+        <div class="store-row"><span class="sico">📞</span><a href="tel:+584143786971">+58 414 378 6971</a></div>
+        <div class="store-row"><span class="sico">✉️</span><a href="mailto:kmasoluciones@gmail.com">kmasoluciones@gmail.com</a></div>
+      </div>
+      <div class="store-card main">
+        <div class="store-badge gold">Fábrica FAVECA</div>
+        <h4>FAVECA — Planta Principal</h4>
+        <div class="store-row"><span class="sico">📍</span><span>Carretera Charallave–Cúa Km. 3, Estado Miranda</span></div>
+        <div class="store-row"><span class="sico">🕐</span><span>Lun–Jue 8:30am–3:30pm</span></div>
+        <div class="store-row"><span class="sico">📞</span><a href="tel:+584122900353">+58 412 290 0353</a></div>
+        <div class="store-row"><span class="sico">✉️</span><a href="mailto:favecaventas@gmail.com">favecaventas@gmail.com</a></div>
+      </div>
+    </div>
+    <div class="pickup-note">
+      <h4>🏪 Sistema Pick Up</h4>
+      <p>FAVECA opera con sistema de retiro en tienda (Pick Up). No realizamos envíos a domicilio. Una vez confirmado tu pago, recibirás un mensaje de FAVECA con la fecha y hora en que tu producto estará disponible para retiro en la tienda que elegiste.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="sec-dark" id="contacto">
+  <div class="sec-inner">
+    <h2 class="sec-title" style="margin-bottom:28px">Contacto</h2>
+    <div class="contact-grid">
+      <div>
+        <p style="font-size:14px;color:#9299A8;margin-bottom:24px;line-height:1.75">¿Tienes preguntas? Escríbenos directamente por cualquiera de estos canales.</p>
+        <div class="store-row"><span class="sico">📞</span><a href="tel:+584122900353" style="color:#E8E4DC">+58 412 290 0353</a></div>
+        <div class="store-row"><span class="sico">✉️</span><a href="mailto:faveca.gestion@gmail.com" style="color:#E8E4DC">faveca.gestion@gmail.com</a></div>
+        <div class="store-row"><span class="sico">📷</span><a href="https://www.instagram.com/_faveca_/" target="_blank" style="color:#E8E4DC">@_faveca_</a></div>
+        <div class="store-row"><span class="sico">📍</span><span>Carretera Charallave–Cúa Km. 3, Estado Miranda</span></div>
+      </div>
+      <div class="rif-box">
+        <span style="display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8B7355;margin-bottom:8px">RIF</span>
+        <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:.04em">J-000135614</span>
+        <p style="font-size:12px;color:#9299A8;line-height:1.7">Empresa registrada en Venezuela. Todos los precios incluyen IVA (16%). Tarifa calculada según tasa BCV del día del pago.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="assets/img/logo.jpg" alt="FAVECA">
+  <span class="footer-copy">© 2025 Fábrica Venezolana de Camas · J-000135614</span>
+  <span class="footer-copy">faveca.gestion@gmail.com</span>
+</footer>
+
+<!-- CART -->
+<div class="cart-ov" id="cartOv"></div>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-hdr">
+    <h3>Tu carrito</h3>
+    <button class="xbtn" id="cartClose">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div id="cartFooter"></div>
+</aside>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-ov" id="modalOv">
+  <div class="modal" id="modal">
+    <button class="modal-close-btn" id="modalClose">✕</button>
+    <div id="modalInner"></div>
+  </div>
+</div>
+
+<!-- ORDER -->
+<div class="order-ov" id="orderOv">
+  <div id="orderInner"></div>
+</div>
+
+<script src="js/products.js"></script>
+<script src="js/store.js"></script>
+</body>
+</html>
